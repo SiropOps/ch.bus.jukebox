@@ -8,4 +8,4 @@ ADD ./target/app.jar /app/
 
 EXPOSE 3335
 
-CMD ["java", "-Xms64m", "-Xmx256m", "-jar", "/app/app.jar"]
+CMD ["java", "-Xms64m", "-Xmx900m", "-jar", "/app/app.jar"]
