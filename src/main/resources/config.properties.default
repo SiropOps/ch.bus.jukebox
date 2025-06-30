@@ -1,0 +1,4 @@
+spotify.client-id=[ID]
+spotify.client-secret=[SECRET]
+spotify.redirect-uri=[URI]
+spotify.refresh-token=[TOKEN]

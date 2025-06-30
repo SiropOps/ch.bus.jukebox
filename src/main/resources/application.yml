@@ -1,0 +1,71 @@
+server:
+  port: 3335
+  forward-headers-strategy: native
+  tomcat:
+    remoteip:
+      remote-ip-header: x-forwarded-for
+      protocol-header: x-forwarded-proto
+  max-http-request-header-size: 10MB
+logging:
+  file:
+    max-history: 5
+    max-size: 10MB
+    name: log/app.log
+  level:
+    org:
+      springframework:
+        web: INFO
+    root: INFO
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 90000
+        loggerLevel: basic
+hystrix:
+  shareSecurityContext: false
+  threadpool:
+    default:
+      coreSize: 100
+      maxQueueSize: -1
+      queueSizeRejectionThreshold: 5
+  command:
+    default:
+      circuitBreaker:
+        forceClosed: true
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      group:
+        custom:
+          include: ping
+      show-details: always
+health:
+  config.time-to-live: 3600000
+spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  application:
+     name: jukebox     
+  banner:
+    location: classpath:/static/bannername.txt
+info:
+  app:
+    name: '@project.name@'
+    version: '@project.version@'
+    encoding: '@project.build.sourceEncoding@'
