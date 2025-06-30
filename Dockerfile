@@ -1,4 +1,4 @@
-FROM openjdk:17-jre
+FROM eclipse-temurin:17-jre
 
 LABEL maintainer="SiropOps <cyril@botalista.community>"
 
