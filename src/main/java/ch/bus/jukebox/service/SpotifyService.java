@@ -186,18 +186,29 @@ public class SpotifyService {
           spotifyApi.getUsersCurrentlyPlayingTrack().build().execute();
 
       if (currentlyPlaying == null || currentlyPlaying.getItem() == null) {
-        return Map.of("title", null, "artist", null, "image", null, "isPlaying", false);
+        Map<String, Object> result = new HashMap<>();
+        result.put("title", null);
+        result.put("artist", null);
+        result.put("image", null);
+        result.put("isPlaying", false);
+        return result;
       }
 
       Track track = (Track) currentlyPlaying.getItem();
       String title = track.getName();
       String artist = Arrays.stream(track.getArtists()).map(ArtistSimplified::getName)
           .collect(Collectors.joining(", "));
-      String image =
-          track.getAlbum().getImages().length > 0 ? track.getAlbum().getImages()[0].getUrl() : null;
+      String image = track.getAlbum() != null && track.getAlbum().getImages() != null
+          && track.getAlbum().getImages().length > 0
+              ? track.getAlbum().getImages()[0].getUrl()
+              : null;
 
-      return Map.of("title", title, "artist", artist, "image", image, "isPlaying",
-          currentlyPlaying.getIs_playing());
+      Map<String, Object> result = new HashMap<>();
+      result.put("title", title);
+      result.put("artist", artist);
+      result.put("image", image);
+      result.put("isPlaying", currentlyPlaying.getIs_playing());
+      return result;
     } catch (Exception e) {
       throw new RuntimeException("❌ Impossible de récupérer le morceau en cours", e);
     }
